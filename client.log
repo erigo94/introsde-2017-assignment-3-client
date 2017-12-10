@@ -1,0 +1,84 @@
+Request #1: readPersonList()
+--> Info: return the list of all the people in the database
+--> Result: OK, list has 5 elements
+
+Person with ID: 1
+--> Firstname: Massimo
+--> Lastname: Rossi
+--> Birthdate: 1991-01-15
+--> Activities: 
+	Activity with ID=1
+	--> Activity Name: Running
+	--> Activity Description: Running with friends
+	--> Place : City Centre Trento
+	--> Start date: 2017-10-13T09:50:00.0
+	--> Rate: 8
+	--> Activity Type: Social
+
+	Activity with ID=6
+	--> Activity Name: Skateboarding
+	--> Activity Description: Skateboarding with friends
+	--> Place : Rovereto Centre
+	--> Start date: 2017-10-17T16:00:00.0
+	--> Rate: 5
+	--> Activity Type: Social
+
+------------------
+Person with ID: 2
+--> Firstname: Luca
+--> Lastname: Bianchi
+--> Birthdate: 1992-02-10
+--> Activities: 
+	Activity with ID=2
+	--> Activity Name: Dancing
+	--> Activity Description: Dancing Group Dances
+	--> Place : Iris Club
+	--> Start date: 2017-10-13T21:00:00.0
+	--> Rate: 8
+	--> Activity Type: Social
+
+------------------
+Person with ID: 3
+--> Firstname: Filippo
+--> Lastname: Turri
+--> Birthdate: 1992-10-23
+--> Activities: 
+	Activity with ID=3
+	--> Activity Name: Boxing
+	--> Activity Description: Boxing in the gym
+	--> Place : Santa Chiara Sport Gym
+	--> Start date: 2017-10-14T18:00:00.0
+	--> Rate: 7
+	--> Activity Type: Sport
+
+------------------
+Person with ID: 4
+--> Firstname: Piano
+--> Lastname: Neri
+--> Birthdate: 1993-05-15
+--> Activities: 
+	Activity with ID=4
+	--> Activity Name: Skiing
+	--> Activity Description: Skiing on the Bondone Mountain
+	--> Place : Bondone Mountain
+	--> Start date: 2017-10-15T0800:00.0
+	--> Rate: 9
+	--> Activity Type: Sport
+
+------------------
+Person with ID: 5
+--> Firstname: Gianni
+--> Lastname: Cassia
+--> Birthdate: 1994-05-25
+--> Activities: 
+	Activity with ID=5
+	--> Activity Name: Bowling
+	--> Activity Description: Bowling with friends
+	--> Place : Dro Gigajoy
+	--> Start date: 2017-10-16T22:00:00.0
+	--> Rate: 6
+	--> Activity Type: Social
+
+
+************************************
+
