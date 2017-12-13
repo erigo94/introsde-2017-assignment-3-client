@@ -32,13 +32,25 @@ public class PersonClient {
 		String type = "Social";
 		int first = request1();
 		printResult();
-		/*
-		 * Person person = request2(first); printResult(); request3(person);
-		 * printResult(); int delete = request4(); printResult(); request5(delete);
-		 * printResult(); int mid = request6(first, type); printResult(); request7();
-		 * printResult(); request8(first, type, mid); printResult(); Activity Activity =
-		 * request9(first); printResult(); request10(first, Activity); printResult();
-		 */
+		Person person = request2(first); 
+		printResult(); 
+		request3(person);
+		printResult(); 
+		int delete = request4(); 
+		printResult(); 
+		request5(delete);
+		printResult();
+		int activityId = request6(first, type); 
+		printResult(); 
+		request7();
+		printResult(); 
+		request8(first, activityId); 
+		printResult(); 
+		int idActivity = request9(first); 
+		printResult(); 
+		request10(first, idActivity); 
+		printResult();
+		
 		System.out.println("All the requests were executed and the results were written in the client.log!");
 	}
 
@@ -74,7 +86,7 @@ public class PersonClient {
 		res += "--> Lastname: " + p.getLastname() + "\n";
 		res += "--> Birthdate: " + p.getBirthdate() + "\n";
 		res += "--> Activities: \n";
-		for(Activity a : p.getActivities()) {
+		for(Activity a : p.getActivities().getActivities()) {
 			res += printActivity(a) + "\n";
 		}
 		return res;
@@ -111,12 +123,12 @@ public class PersonClient {
 		return -1;
 
 	}
-/*
+
 	// Request #2 - return the information of the Person with given id
 	private static Person request2(int id) {
 		start = "Request #2: readPerson(int id)";
 		info = "return the personal information and the current Activitys of the first Person in db (id=" + id + ")";
-		Person p = people.readPerson(id);
+		Person p = people.readPerson(Long.valueOf(id));
 		if (p != null)
 			result = "OK, Found Person by id =" + id;
 		else
@@ -128,19 +140,17 @@ public class PersonClient {
 	// Request #3
 	private static void request3(Person p) {
 		start = "Request #3: updatePerson(Person p)";
-		info = "update the Personal information of the Person returned in request #2 with an extra F in the last name and return it";
-		String newLastname = p.getLastname() + "F";
-		p.setCurrentHealth(null); // because the update method should modify only the personal information, not
-									// the health profile
-		p.setLastname(newLastname); // modify the lastname with the current plus one F
+		info = "update the Personal information of the Person returned in request #2 with a different firstname and return it";
+		String newFirstname = "Antonio";
+		p.setFirstname(newFirstname);
 		Holder<Person> holder = new Holder<Person>(p);
 		people.updatePerson(holder);
-		Person ris = holder.value;
-		if (newLastname.equals(ris.getLastname()))
-			result = "OK, The lastname is changed";
+		Person serverAnswer = holder.value;
+		if (newFirstname.equals(serverAnswer.getFirstname()))
+			result = "OK, The firstname is changed";
 		else
-			result = "ERROR, The lastname is NOT changed";
-		doc = printPerson(ris);
+			result = "ERROR, The firstname is NOT changed";
+		doc = printPerson(serverAnswer);
 	}
 
 	// Request #4 - return the id of the new Person
@@ -148,46 +158,50 @@ public class PersonClient {
 		start = "Request #4: createPerson(Person p)";
 		info = "create a new Person with the personal information and current healtprofile and return it";
 		Person p = new Person();
-		p.setName("Miky");
-		p.setLastname("Test");
-		p.setEmail("michele@test.it");
-		p.setBirthdate("07/08/1993");
-		Activity m = new Activity();
-		m.setType("weight");
-		m.setValue("176");
-		m.setValueType("integer");
-		m.setDate("01/12/2016");
-		Person.CurrentHealth cp = new Person.CurrentHealth();
-		cp.getActivity().add(m);
-		p.setCurrentHealth(cp);
+		p.setFirstname("Luca");
+		p.setLastname("Grigi");
+		p.setBirthdate("1996-10-08");
+		p.setActivities(null);
+		
+		Activity a = new Activity();
+		a.setName("Tennis");
+		a.setDescription("Playing tennis with my friends");
+		a.setPlace("Santa Chiara Tennis fields");
+		a.setStartdate("2017-12-13T16:00:00.0");
+		a.setRate(8);
+		a.setIdActivityType(2); //Sport
+		
+		Person.Activities pa = new Person.Activities();
+		pa.getActivities().add(a);
+		p.setActivities(pa);
+		
 		Holder<Person> holder = new Holder<Person>(p);
 		people.createPerson(holder);
-		p = holder.value;
-		if (p != null)
+		Person serverAnswer = holder.value;
+		if (serverAnswer != null)
 			result = "OK, Create person with id =" + p.getIdPerson();
 		else
 			result = "ERROR, Didn't create the Person";
-		doc = printPerson(p);
-		return p.getIdPerson();
+		doc = printPerson(serverAnswer);
+		return serverAnswer.getIdPerson();
 	}
 
 	// Request #5 - remove the person created in request 4
 	private static void request5(int id) {
 		start = "Request #5: deletePerson(int id)";
 		info = "cancel the Person created in the request #4 with id=" + id;
-		int ris = people.deletePerson(id);
+		int ris = people.deletePerson(Long.valueOf(id));
 		if (ris == 0)
 			result = "OK,the person with id " + id + " was deleted ";
 		else
 			result = "ERROR, Didn't delete the person with  id = " + id;
 	}
-
 	// Request #6
-	private static int request6(int id, String type) {
-		start = "Request #6: readPersonHistory(Long id, String ActivityType)";
-		info = "return the list of values (the history) of " + type + " for Person with id=" + id;
+	private static int request6(int id, String activityType) {
+		start = "Request #6: readPersonPreferences(Long id, String ActivityType)";
+		info = "return the list of preferences of " + activityType + " for Person with id=" + id;
 		doc = "";
-		List<Activity> list = people.readPersonHistory(id, type);
+		List<Activity> list = people.readPersonPreferences(Long.valueOf(id), activityType);
 		for (int i = 0; i < list.size(); i++) {
 			doc += printActivity(list.get(i));
 		}
@@ -204,10 +218,10 @@ public class PersonClient {
 
 	// Request #7
 	private static void request7() {
-		start = "Request #7: readActivityTypes()";
+		start = "Request #7: readPreferences()";
 		info = "return the list of all Activitys in the database";
 		doc = "";
-		List<Activity> list = people.readActivityTypes();
+		List<Activity> list = people.readPreferences();
 		for (int i = 0; i < list.size(); i++) {
 			doc += printActivity(list.get(i));
 		}
@@ -218,55 +232,63 @@ public class PersonClient {
 	}
 
 	// Request #8
-	private static void request8(int id, String type, int mid) {
+	private static void request8(int id, int activityId) {
 		start = "Request #8: readPersonActivity(Long id, String ActivityType, Long mid)";
-		info = "return the Activity with mid=" + mid + " and type=" + type + " for Person with id=" + id;
+		info = "return the Activity with activityId = " + activityId + " for Person with id = " + id;
 		doc = "";
-		Activity m = people.readPersonActivity(id, type, mid);
+		Activity m = people.readPersonPreferencesById(Long.valueOf(id), Long.valueOf(activityId));
 		doc = printActivity(m);
 		if (m != null)
-			result = "OK, Found Activity by mid =" + mid;
+			result = "OK, Found Activity by mid =" + activityId;
 		else
-			result = "ERROR, Didn't find any Activity with  mid = " + mid;
+			result = "ERROR, Didn't find any Activity with  mid = " + activityId;
 	}
 
 	// Request #9
-	private static Activity request9(int id) throws ParseException_Exception {
-		start = "Request #9: savePersonActivity(Long id, Activity m)";
+	private static int request9(int id) {
+		start = "Request #9: savePersonPreferences(Long id, Activity a)";
 		info = "save a new Activity of Person identified with id=" + id + " and archive the old value in the history";
 		doc = "";
-		Activity m = new Activity();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		m.setDate(sdf.format(new Date()));
-		m.setType("height");
-		m.setValue("180");
-		m.setValueType("integer");
-		Holder<Activity> Activity = new Holder<Activity>(m);
-		people.savePersonActivity(id, Activity);
-		m = Activity.value;
-		doc = printActivity(m);
-		if (m != null) {
-			result = "OK, New Activity with mid =" + m.getIdActivity();
-			return m;
+		Activity a = new Activity();
+		a.setName("Volleyball");
+		a.setDescription("Playing volleybal with my friends");
+		a.setPlace("Mattarello Sport Center");
+		a.setStartdate("2017-12-14T21:00:00.0");
+		a.setRate(7);
+		a.setIdActivityType(1); //Social
+		
+		Holder<Activity> holderActivity = new Holder<Activity>(a);
+		people.savePersonPreferences(Long.valueOf(id), holderActivity);
+		a = holderActivity.value;
+		doc = printActivity(a);
+		if (a != null) {
+			result = "OK, New Activity with mid =" + a.getIdActivity();
+			return a.getIdActivity();
 		} else
 			result = "ERROR, Didn't create any Activity ";
-		return null;
+		return -1;
 	}
 
 	// Request #10
-	private static void request10(int id, Activity m) {
-		String newValue = String.valueOf(Integer.parseInt(m.getValue()) + 5);
+	private static void request10(int id, int idActivity) {
+		String newName = "Go Karting";
 		start = "Request #10: updatePersonActivity(Long id, Activity m)";
-		info = "update the value of the Activity created in request #9, the new value is " + newValue;
+		info = "update the value of the Activity created in request #9, the new name is " + newName;
 		doc = "";
-		m.setValue(newValue);
-		Holder<Activity> Activity = new Holder<Activity>(m);
-		people.updatePersonActivity(id, Activity);
-		m = Activity.value;
-		doc = printActivity(m);
-		if (newValue.equals(m.getValue()))
-			result = "OK, the value is changed at " + newValue;
+		Activity a = new Activity();
+		a.setName(newName);
+		a.setDescription("Go karting at Affi");
+		a.setPlace("Affi center");
+		a.setStartdate("2017-12-16T22:00:00.0");
+		a.setRate(10);
+		a.setIdActivityType(2); //Sport
+		
+		Holder<Activity> holderActivity = new Holder<Activity>(a);
+		people.updatePersonPreferences(Long.valueOf(id), holderActivity);
+		doc = printActivity(holderActivity.value);
+		if (holderActivity.value.getName().equals(newName))
+			result = "OK, the value is changed at " + newName;
 		else
 			result = "ERROR, the value isn't changed ";
-	}*/
+	}
 }
