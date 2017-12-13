@@ -203,4 +203,13 @@ public interface People {
         @WebParam(name = "personId", targetNamespace = "")
         Long personId);
 
+    /**
+     * 
+     */
+    @WebMethod
+    @RequestWrapper(localName = "init", targetNamespace = "http://ws.soap.assignment3.introsde/", className = "introsde.assignment3.soap.ws.Init")
+    @ResponseWrapper(localName = "initResponse", targetNamespace = "http://ws.soap.assignment3.introsde/", className = "introsde.assignment3.soap.ws.InitResponse")
+    @Action(input = "http://ws.soap.assignment3.introsde/People/initRequest", output = "http://ws.soap.assignment3.introsde/People/initResponse")
+    public void init();
+
 }

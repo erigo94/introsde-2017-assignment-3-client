@@ -46,9 +46,13 @@ public class PersonClient {
 		printResult(); 
 		request8(first, activityId); 
 		printResult(); 
-		int idActivity = request9(first); 
+		Activity activity = request9(first); 
 		printResult(); 
-		request10(first, idActivity); 
+		activity = request10(first, activity.getIdActivity()); 
+		printResult();
+		request11(first, activity, 10); 
+		printResult();
+		request12(first); 
 		printResult();
 		
 		System.out.println("All the requests were executed and the results were written in the client.log!");
@@ -64,6 +68,7 @@ public class PersonClient {
 		print = new PrintStream(file);
 		service = new PeopleService();
 		people = service.getPeopleImplPort();
+		people.init();
 		request = 1;
 	}
 
@@ -71,8 +76,8 @@ public class PersonClient {
 		System.out.println("Request #" + request + " was written in the log file");
 		PrintStream stream = print;
 		stream.println(start);
-		stream.println("--> Info: " + info);
-		stream.println("--> Result: " + result);
+		stream.println("\tInfo: " + info);
+		stream.println("\tResult: " + result);
 		stream.println();
 		stream.println(doc);
 		stream.println("************************************");
@@ -82,10 +87,10 @@ public class PersonClient {
 
 	private static String printPerson(Person p) {
 		String res = "Person with ID: " + p.getIdPerson() + "\n";
-		res += "--> Firstname: " + p.getFirstname() + "\n";
-		res += "--> Lastname: " + p.getLastname() + "\n";
-		res += "--> Birthdate: " + p.getBirthdate() + "\n";
-		res += "--> Activities: \n";
+		res += "+-- Firstname: " + p.getFirstname() + "\n";
+		res += "|-- Lastname: " + p.getLastname() + "\n";
+		res += "|-- Birthdate: " + p.getBirthdate() + "\n";
+		res += "|-- Activities: \n";
 		for(Activity a : p.getActivities().getActivities()) {
 			res += printActivity(a) + "\n";
 		}
@@ -93,17 +98,17 @@ public class PersonClient {
 	}
 
 	private static String printActivity(Activity a) {
-		String res = "\tActivity with ID=" + a.getIdActivity() + "\n";
-		res += "\t--> Activity Name: " + a.getName() + "\n";
-		res += "\t--> Activity Description: " + a.getDescription() + "\n";
-		res += "\t--> Place : " + a.getPlace() + "\n";
-		res += "\t--> Start date: " + a.getStartdate() + "\n";
-		res += "\t--> Rate: " + a.getRate() + "\n";
-		res += "\t--> Activity Type: " + a.getActivityType().getActivityType() + "\n";
+		String res = "\t+-- Activity with Id: " + a.getIdActivity() + "\n";
+		res += "\t|-- Activity Name: " + a.getName() + "\n";
+		res += "\t|-- Activity Description: " + a.getDescription() + "\n";
+		res += "\t|-- Place : " + a.getPlace() + "\n";
+		res += "\t|-- Start date: " + a.getStartdate() + "\n";
+		res += "\t|-- Rate: " + a.getRate() + "\n";
+		res += "\t|-- Activity Type: " + a.getActivityType().getActivityType() + "\n";
 		return res;
 	}
 
-	// List of request
+	// List of requests
 
 	// Request #1 - Return the first id
 	private static int request1() {
@@ -179,7 +184,7 @@ public class PersonClient {
 		people.createPerson(holder);
 		Person serverAnswer = holder.value;
 		if (serverAnswer != null)
-			result = "OK, Create person with id =" + p.getIdPerson();
+			result = "OK, Create person with id = " + p.getIdPerson();
 		else
 			result = "ERROR, Didn't create the Person";
 		doc = printPerson(serverAnswer);
@@ -189,7 +194,7 @@ public class PersonClient {
 	// Request #5 - remove the person created in request 4
 	private static void request5(int id) {
 		start = "Request #5: deletePerson(int id)";
-		info = "cancel the Person created in the request #4 with id=" + id;
+		info = "Delete the Person created in the request #4 with id = " + id;
 		int ris = people.deletePerson(Long.valueOf(id));
 		if (ris == 0)
 			result = "OK,the person with id " + id + " was deleted ";
@@ -199,7 +204,7 @@ public class PersonClient {
 	// Request #6
 	private static int request6(int id, String activityType) {
 		start = "Request #6: readPersonPreferences(Long id, String ActivityType)";
-		info = "return the list of preferences of " + activityType + " for Person with id=" + id;
+		info = "return the list of preferences of " + activityType + " for Person with id = " + id;
 		doc = "";
 		List<Activity> list = people.readPersonPreferences(Long.valueOf(id), activityType);
 		for (int i = 0; i < list.size(); i++) {
@@ -219,7 +224,7 @@ public class PersonClient {
 	// Request #7
 	private static void request7() {
 		start = "Request #7: readPreferences()";
-		info = "return the list of all Activitys in the database";
+		info = "Return the list of all Activitys in the database";
 		doc = "";
 		List<Activity> list = people.readPreferences();
 		for (int i = 0; i < list.size(); i++) {
@@ -245,9 +250,9 @@ public class PersonClient {
 	}
 
 	// Request #9
-	private static int request9(int id) {
+	private static Activity request9(int id) {
 		start = "Request #9: savePersonPreferences(Long id, Activity a)";
-		info = "save a new Activity of Person identified with id=" + id + " and archive the old value in the history";
+		info = "Save a new Activity of Person identified with id=" + id + " and archive the old value in the history";
 		doc = "";
 		Activity a = new Activity();
 		a.setName("Volleyball");
@@ -263,32 +268,66 @@ public class PersonClient {
 		doc = printActivity(a);
 		if (a != null) {
 			result = "OK, New Activity with mid =" + a.getIdActivity();
-			return a.getIdActivity();
+			return a;
 		} else
 			result = "ERROR, Didn't create any Activity ";
-		return -1;
+		return null;
 	}
 
 	// Request #10
-	private static void request10(int id, int idActivity) {
+	private static Activity request10(int id, int idActivity) {
 		String newName = "Go Karting";
-		start = "Request #10: updatePersonActivity(Long id, Activity m)";
+		start = "Request #10: updatePersonPreferences(Long id, Activity a)";
 		info = "update the value of the Activity created in request #9, the new name is " + newName;
 		doc = "";
 		Activity a = new Activity();
+		a.setIdActivity(idActivity);
 		a.setName(newName);
 		a.setDescription("Go karting at Affi");
 		a.setPlace("Affi center");
 		a.setStartdate("2017-12-16T22:00:00.0");
-		a.setRate(10);
+		a.setRate(9);
 		a.setIdActivityType(2); //Sport
 		
 		Holder<Activity> holderActivity = new Holder<Activity>(a);
 		people.updatePersonPreferences(Long.valueOf(id), holderActivity);
 		doc = printActivity(holderActivity.value);
-		if (holderActivity.value.getName().equals(newName))
-			result = "OK, the value is changed at " + newName;
+		if (holderActivity.value.getName().equals(newName)) {
+			result = "OK, the firstname is changed at " + newName;
+			return holderActivity.value;
+		}
+		else {
+			result = "ERROR, the firstame isn't changed ";
+			return holderActivity.value;
+		}
+	}
+	
+	// Request #11
+	private static void request11(int id, Activity activity, int value) {
+		start = "Request #11: updatePersonActivity(Long id, Activity a, int value)";
+		info = "Update the rate of the Activity created in request #9, the new rate is " + value;
+		doc = "";
+		Holder<Activity> holderActivity = new Holder<Activity>(activity);
+		people.evaluatePersonPreferences(Long.valueOf(id), holderActivity, value);
+		doc = printActivity(holderActivity.value);
+		if (holderActivity.value.getRate() == value)
+			result = "OK, the rate is changed at " + String.valueOf(value);
 		else
-			result = "ERROR, the value isn't changed ";
+			result = "ERROR, the rate isn't changed ";
+	}
+	
+	// Request #12
+	private static void request12(int id) {
+		start = "Request #12: getBestPersonPreference(Long id)";
+		info = "Return the best list of Preference for the Person with id = " + String.valueOf(id);
+		doc = "";
+		List<Activity> list = people.getBestPersonPreference(Long.valueOf(id));
+		for (int i = 0; i < list.size(); i++) {
+			doc += printActivity(list.get(i));
+		}
+		if (!list.isEmpty())
+			result = "OK, there are " + list.size() + " Activity in the database ";
+		else
+			result = "ERROR, the person hasn't Activity of weight";
 	}
 }

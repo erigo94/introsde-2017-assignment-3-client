@@ -39,8 +39,10 @@ public class ObjectFactory {
     private final static QName _DeletePersonResponse_QNAME = new QName("http://ws.soap.assignment3.introsde/", "deletePersonResponse");
     private final static QName _CreatePerson_QNAME = new QName("http://ws.soap.assignment3.introsde/", "createPerson");
     private final static QName _EvaluatePersonPreferencesResponse_QNAME = new QName("http://ws.soap.assignment3.introsde/", "evaluatePersonPreferencesResponse");
+    private final static QName _InitResponse_QNAME = new QName("http://ws.soap.assignment3.introsde/", "initResponse");
     private final static QName _SavePersonPreferences_QNAME = new QName("http://ws.soap.assignment3.introsde/", "savePersonPreferences");
     private final static QName _CreatePersonResponse_QNAME = new QName("http://ws.soap.assignment3.introsde/", "createPersonResponse");
+    private final static QName _Init_QNAME = new QName("http://ws.soap.assignment3.introsde/", "init");
     private final static QName _DeletePerson_QNAME = new QName("http://ws.soap.assignment3.introsde/", "deletePerson");
     private final static QName _ReadPersonPreferencesByIdResponse_QNAME = new QName("http://ws.soap.assignment3.introsde/", "readPersonPreferencesByIdResponse");
     private final static QName _UpdatePerson_QNAME = new QName("http://ws.soap.assignment3.introsde/", "updatePerson");
@@ -186,11 +188,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Init }
+     * 
+     */
+    public Init createInit() {
+        return new Init();
+    }
+
+    /**
      * Create an instance of {@link ReadPersonPreferencesByIdResponse }
      * 
      */
     public ReadPersonPreferencesByIdResponse createReadPersonPreferencesByIdResponse() {
         return new ReadPersonPreferencesByIdResponse();
+    }
+
+    /**
+     * Create an instance of {@link InitResponse }
+     * 
+     */
+    public InitResponse createInitResponse() {
+        return new InitResponse();
     }
 
     /**
@@ -417,6 +435,15 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InitResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.soap.assignment3.introsde/", name = "initResponse")
+    public JAXBElement<InitResponse> createInitResponse(InitResponse value) {
+        return new JAXBElement<InitResponse>(_InitResponse_QNAME, InitResponse.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SavePersonPreferences }{@code >}}
      * 
      */
@@ -432,6 +459,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://ws.soap.assignment3.introsde/", name = "createPersonResponse")
     public JAXBElement<CreatePersonResponse> createCreatePersonResponse(CreatePersonResponse value) {
         return new JAXBElement<CreatePersonResponse>(_CreatePersonResponse_QNAME, CreatePersonResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link Init }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://ws.soap.assignment3.introsde/", name = "init")
+    public JAXBElement<Init> createInit(Init value) {
+        return new JAXBElement<Init>(_Init_QNAME, Init.class, null, value);
     }
 
     /**
