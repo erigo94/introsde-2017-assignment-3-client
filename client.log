@@ -1,0 +1,283 @@
+Server WSDL url: https://localhost/ws/people?wsdl
+Request #1: readPersonList()
+	Info: return the list of all the people in the database
+	Result: OK, list has 5 elements
+
+Person with ID: 6
++-- Firstname: Massimo
+|-- Lastname: Rossi
+|-- Birthdate: 1991-01-15
+|-- Activities: 
+	+-- Activity with Id: 7
+	|-- Activity Name: Running
+	|-- Activity Description: Running with friends
+	|-- Place : City Centre Trento
+	|-- Start date: 2017-10-13T09:50:00.0
+	|-- Rate: 6
+	|-- Activity Type: Social
+
+------------------
+Person with ID: 7
++-- Firstname: Luca
+|-- Lastname: Bianchi
+|-- Birthdate: 1999-02-10
+|-- Activities: 
+	+-- Activity with Id: 8
+	|-- Activity Name: Dancing
+	|-- Activity Description: Dancing Group Dances
+	|-- Place : Iris Club
+	|-- Start date: 2017-10-13T21:00:00.0
+	|-- Rate: 7
+	|-- Activity Type: Social
+
+------------------
+Person with ID: 8
++-- Firstname: Filippo
+|-- Lastname: Turri
+|-- Birthdate: 1999-10-23
+|-- Activities: 
+	+-- Activity with Id: 9
+	|-- Activity Name: Boxing
+	|-- Activity Description: Boxing in the gym
+	|-- Place : Santa Chiara Sport Gym
+	|-- Start date: 2017-10-14T18:00:00.0
+	|-- Rate: 7
+	|-- Activity Type: Sport
+
+------------------
+Person with ID: 9
++-- Firstname: Piano
+|-- Lastname: Neri
+|-- Birthdate: 1993-05-15
+|-- Activities: 
+	+-- Activity with Id: 10
+	|-- Activity Name: Skiing
+	|-- Activity Description: Skiing on the Bondone Mountain
+	|-- Place : Bondone Mountain
+	|-- Start date: 2017-10-15T08:00:00.0
+	|-- Rate: 6
+	|-- Activity Type: Sport
+
+------------------
+Person with ID: 10
++-- Firstname: Gianni
+|-- Lastname: Cassia
+|-- Birthdate: 1994-05-25
+|-- Activities: 
+	+-- Activity with Id: 11
+	|-- Activity Name: Skateboarding
+	|-- Activity Description: Skateboarding with friends
+	|-- Place : Rovereto Centre
+	|-- Start date: 2017-10-17T16:00:00.0
+	|-- Rate: 8
+	|-- Activity Type: Social
+
+
+************************************
+
+Request #2: readPerson(Long id)
+	Info: return the personal information and the current Activitys of the first Person in db (id=6)
+	Result: OK, Found Person by id =6
+
+Person with ID: 6
++-- Firstname: Massimo
+|-- Lastname: Rossi
+|-- Birthdate: 1991-01-15
+|-- Activities: 
+	+-- Activity with Id: 7
+	|-- Activity Name: Running
+	|-- Activity Description: Running with friends
+	|-- Place : City Centre Trento
+	|-- Start date: 2017-10-13T09:50:00.0
+	|-- Rate: 6
+	|-- Activity Type: Social
+
+
+************************************
+
+Request #3: updatePerson(Person p)
+	Info: update the Personal information of the Person returned in request #2 with a different firstname and return it
+	Result: OK, The firstname is changed
+
+Person with ID: 6
++-- Firstname: Antonio
+|-- Lastname: Rossi
+|-- Birthdate: 1991-01-15
+|-- Activities: 
+	+-- Activity with Id: 7
+	|-- Activity Name: Running
+	|-- Activity Description: Running with friends
+	|-- Place : City Centre Trento
+	|-- Start date: 2017-10-13T09:50:00.0
+	|-- Rate: 6
+	|-- Activity Type: Social
+
+
+************************************
+
+Request #4: createPerson(Person p)
+	Info: create a new Person with the personal information and current healtprofile and return it
+	Result: OK, Create person with id = 0
+
+Person with ID: 11
++-- Firstname: Luca
+|-- Lastname: Grigi
+|-- Birthdate: 1996-10-08
+|-- Activities: 
+	+-- Activity with Id: 12
+	|-- Activity Name: Tennis
+	|-- Activity Description: Playing tennis with my friends
+	|-- Place : Santa Chiara Tennis fields
+	|-- Start date: 2017-12-13T16:00:00.0
+	|-- Rate: 8
+	|-- Activity Type: Sport
+
+
+************************************
+
+Request #5: deletePerson(Long id)
+	Info: delete the Person created in the request #4 with id = 11
+	Result: OK,the person with id 11 was deleted 
+
+Person with ID: 11
++-- Firstname: Luca
+|-- Lastname: Grigi
+|-- Birthdate: 1996-10-08
+|-- Activities: 
+	+-- Activity with Id: 12
+	|-- Activity Name: Tennis
+	|-- Activity Description: Playing tennis with my friends
+	|-- Place : Santa Chiara Tennis fields
+	|-- Start date: 2017-12-13T16:00:00.0
+	|-- Rate: 8
+	|-- Activity Type: Sport
+
+
+************************************
+
+Request #6: readPersonPreferences(Long id, String ActivityType)
+	Info: return the list of preferences of Social for Person with id = 6
+	Result: OK,the person has 1 weight 
+
+	+-- Activity with Id: 7
+	|-- Activity Name: Running
+	|-- Activity Description: Running with friends
+	|-- Place : City Centre Trento
+	|-- Start date: 2017-10-13T09:50:00.0
+	|-- Rate: 6
+	|-- Activity Type: Social
+
+************************************
+
+Request #7: readPreferences()
+	Info: return the list of all Activitys in the database
+	Result: OK, there are 5 Activity in the database 
+
+	+-- Activity with Id: 7
+	|-- Activity Name: Running
+	|-- Activity Description: Running with friends
+	|-- Place : City Centre Trento
+	|-- Start date: 2017-10-13T09:50:00.0
+	|-- Rate: 6
+	|-- Activity Type: Social
+	+-- Activity with Id: 8
+	|-- Activity Name: Dancing
+	|-- Activity Description: Dancing Group Dances
+	|-- Place : Iris Club
+	|-- Start date: 2017-10-13T21:00:00.0
+	|-- Rate: 7
+	|-- Activity Type: Social
+	+-- Activity with Id: 9
+	|-- Activity Name: Boxing
+	|-- Activity Description: Boxing in the gym
+	|-- Place : Santa Chiara Sport Gym
+	|-- Start date: 2017-10-14T18:00:00.0
+	|-- Rate: 7
+	|-- Activity Type: Sport
+	+-- Activity with Id: 10
+	|-- Activity Name: Skiing
+	|-- Activity Description: Skiing on the Bondone Mountain
+	|-- Place : Bondone Mountain
+	|-- Start date: 2017-10-15T08:00:00.0
+	|-- Rate: 6
+	|-- Activity Type: Sport
+	+-- Activity with Id: 11
+	|-- Activity Name: Skateboarding
+	|-- Activity Description: Skateboarding with friends
+	|-- Place : Rovereto Centre
+	|-- Start date: 2017-10-17T16:00:00.0
+	|-- Rate: 8
+	|-- Activity Type: Social
+
+************************************
+
+Request #8: readPersonPreferences(Long id, Long activityId)
+	Info: return the Activity with activityId = 7 for Person with id = 6
+	Result: OK, Found Activity by mid =7
+
+	+-- Activity with Id: 7
+	|-- Activity Name: Running
+	|-- Activity Description: Running with friends
+	|-- Place : City Centre Trento
+	|-- Start date: 2017-10-13T09:50:00.0
+	|-- Rate: 6
+	|-- Activity Type: Social
+
+************************************
+
+Request #9: savePersonPreferences(Long id, Activity a)
+	Info: save a new Activity of Person identified with id=6 and archive the old value in the history
+	Result: OK, New Activity with mid =13
+
+	+-- Activity with Id: 13
+	|-- Activity Name: Volleyball
+	|-- Activity Description: Playing volleybal with my friends
+	|-- Place : Mattarello Sport Center
+	|-- Start date: 2017-12-14T21:00:00.0
+	|-- Rate: 7
+	|-- Activity Type: Social
+
+************************************
+
+Request #10: updatePersonPreferences(Long id, Activity a)
+	Info: update the value of the Activity created in request #9, the new name is Go Karting
+	Result: OK, the firstname is changed at Go Karting
+
+	+-- Activity with Id: 13
+	|-- Activity Name: Go Karting
+	|-- Activity Description: Go karting at Affi
+	|-- Place : Affi center
+	|-- Start date: 2017-12-16T22:00:00.0
+	|-- Rate: 9
+	|-- Activity Type: Sport
+
+************************************
+
+Request #11: evaluatePersonPreferences(Long id, Activity a, int value)
+	Info: Update the rate of the Activity created in request #9, the new rate is 10
+	Result: OK, the rate is changed at 10
+
+	+-- Activity with Id: 13
+	|-- Activity Name: Go Karting
+	|-- Activity Description: Go karting at Affi
+	|-- Place : Affi center
+	|-- Start date: 2017-12-16T22:00:00.0
+	|-- Rate: 10
+	|-- Activity Type: Sport
+
+************************************
+
+Request #12: getBestPersonPreference(Long id)
+	Info: Return the best list of Preference for the Person with id = 6
+	Result: OK, there are 1 Activity in the database 
+
+	+-- Activity with Id: 13
+	|-- Activity Name: Go Karting
+	|-- Activity Description: Go karting at Affi
+	|-- Place : Affi center
+	|-- Start date: 2017-12-16T22:00:00.0
+	|-- Rate: 10
+	|-- Activity Type: Sport
+
+************************************
+

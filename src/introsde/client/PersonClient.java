@@ -60,7 +60,7 @@ public class PersonClient {
 
 	public static void getURI() {
 		PrintStream stream = print;
-		stream.println("Server WSDL url: https://introsde-2017-assign-3-server.herokuapp.com/ws/people?wsdl");
+		stream.println("Server WSDL url: https://localhost/ws/people?wsdl");
 	}
 
 	private static void initialize() throws FileNotFoundException {
