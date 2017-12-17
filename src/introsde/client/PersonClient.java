@@ -60,7 +60,7 @@ public class PersonClient {
 
 	public static void getURI() {
 		PrintStream stream = print;
-		//stream.println("Server WSDL url: https://introsde2016-assignment3.herokuapp.com/ws/people?wsdl");
+		stream.println("Server WSDL url: https://introsde-2017-assign-3-server.herokuapp.com/ws/people?wsdl");
 	}
 
 	private static void initialize() throws FileNotFoundException {
@@ -131,7 +131,7 @@ public class PersonClient {
 
 	// Request #2 - return the information of the Person with given id
 	private static Person request2(int id) {
-		start = "Request #2: readPerson(int id)";
+		start = "Request #2: readPerson(Long id)";
 		info = "return the personal information and the current Activitys of the first Person in db (id=" + id + ")";
 		Person p = people.readPerson(Long.valueOf(id));
 		if (p != null)
@@ -193,14 +193,15 @@ public class PersonClient {
 
 	// Request #5 - remove the person created in request 4
 	private static void request5(int id) {
-		start = "Request #5: deletePerson(int id)";
-		info = "Delete the Person created in the request #4 with id = " + id;
+		start = "Request #5: deletePerson(Long id)";
+		info = "delete the Person created in the request #4 with id = " + id;
 		int ris = people.deletePerson(Long.valueOf(id));
 		if (ris == 0)
 			result = "OK,the person with id " + id + " was deleted ";
 		else
 			result = "ERROR, Didn't delete the person with  id = " + id;
 	}
+	
 	// Request #6
 	private static int request6(int id, String activityType) {
 		start = "Request #6: readPersonPreferences(Long id, String ActivityType)";
@@ -224,7 +225,7 @@ public class PersonClient {
 	// Request #7
 	private static void request7() {
 		start = "Request #7: readPreferences()";
-		info = "Return the list of all Activitys in the database";
+		info = "return the list of all Activitys in the database";
 		doc = "";
 		List<Activity> list = people.readPreferences();
 		for (int i = 0; i < list.size(); i++) {
@@ -238,7 +239,7 @@ public class PersonClient {
 
 	// Request #8
 	private static void request8(int id, int activityId) {
-		start = "Request #8: readPersonActivity(Long id, String ActivityType, Long mid)";
+		start = "Request #8: readPersonPreferences(Long id, Long activityId)";
 		info = "return the Activity with activityId = " + activityId + " for Person with id = " + id;
 		doc = "";
 		Activity m = people.readPersonPreferencesById(Long.valueOf(id), Long.valueOf(activityId));
@@ -252,7 +253,7 @@ public class PersonClient {
 	// Request #9
 	private static Activity request9(int id) {
 		start = "Request #9: savePersonPreferences(Long id, Activity a)";
-		info = "Save a new Activity of Person identified with id=" + id + " and archive the old value in the history";
+		info = "save a new Activity of Person identified with id=" + id + " and archive the old value in the history";
 		doc = "";
 		Activity a = new Activity();
 		a.setName("Volleyball");
@@ -304,7 +305,7 @@ public class PersonClient {
 	
 	// Request #11
 	private static void request11(int id, Activity activity, int value) {
-		start = "Request #11: updatePersonActivity(Long id, Activity a, int value)";
+		start = "Request #11: evaluatePersonPreferences(Long id, Activity a, int value)";
 		info = "Update the rate of the Activity created in request #9, the new rate is " + value;
 		doc = "";
 		Holder<Activity> holderActivity = new Holder<Activity>(activity);
